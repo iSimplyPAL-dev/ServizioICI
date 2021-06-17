@@ -75,7 +75,10 @@ Public Class ObjResiduoRendita
         End Set
     End Property
 End Class
-
+''' <summary>
+''' 
+''' </summary>
+''' <revisionHistory><revision date="11/06/2021">Nuove Tipologie di Utilizzo</revision></revisionHistory>
 Public Class Generale
     Private Shared Log As ILog = LogManager.GetLogger(GetType(Generale))
     Public Const DBType = "SQL"
@@ -106,6 +109,9 @@ Public Class Generale
     Public Const TipoAliquote_P As String = "P"       'PERTINENZA
     Public Const TipoAliquote_S As String = "S"       'SFITTI/A DISPOSIZIONE
     Public Const TipoAliquote_TTAA As String = "TA"       'TERRENI AGRICOLI
+    Public Const TipoAliquote_STO As String = "STO"       'Storico
+    Public Const TipoAliquote_RUR As String = "RUR"       'Rurale
+    Public Const TipoAliquote_IACP As String = "IACP"       'IMU per l'Agenzia Territoriale per la Casa (ex IACP)
     'DIPE 25/03/2009
     Public Const TipoAliquote_AAIRE As String = "AAIRE"       'AIRE
     Public Const TipoAliquote_AL As String = "AL"     'Immobile Locato 
@@ -145,6 +151,9 @@ Public Class Generale
     Public Const TitoloPossesso_APEX As Integer = 9 ' String ="11"      'Detrazione Ex 104/92
     Public Const TitoloPossesso_AIRE As Integer = -1 ' String ="12"      'AIRE
     Public Const TitoloPossesso_LOC As Integer = 8 ' String ="13"       'Immobile Locato
+    Public Const TitoloPossesso_STO As Integer = 12  'Storico	
+    Public Const TitoloPossesso_RUR As Integer = 13  'Rurale	
+    Public Const TitoloPossesso_IACP As Integer = 14  'IMU per l'Agenzia Territoriale per la Casa (ex IACP)	
 #End Region
 
     Enum ABITAZIONE_PRINCIPALE_PERTINENZA
