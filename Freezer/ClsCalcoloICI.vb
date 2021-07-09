@@ -1111,7 +1111,7 @@ Public Class CALCOLO_ICI
     ''' <param name="structPARAMETRI_ICI"></param>
     ''' <param name="Tributo"></param>
     ''' <returns></returns>
-    ''' <revisionHistory><revision date="11/06/2021">Nuove Tipologie di Utilizzo</revision></revisionHistory>
+    ''' <revisionHistory><revision date="11/06/2021">Nuove Tipologie di Utilizzo3</revision></revisionHistory>
     Public Function getAliquotaDetrazione(myStringConnection As String, IdEnte As String, ByVal structPARAMETRI_ICI As Generale.PARAMETRI_ICI, ByVal Tributo As String) As ListALIQUOTA_DETRAZIONE
         Dim strANNO_CALCOLO_Aliquota As String = Now.Year.ToString
         Dim objDSResults As New DataSet
@@ -1329,7 +1329,16 @@ Public Class CALCOLO_ICI
             Return New ListALIQUOTA_DETRAZIONE
         End Try
     End Function
-
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="myStringConnection"></param>
+    ''' <param name="IdEnte"></param>
+    ''' <param name="sAnno"></param>
+    ''' <param name="myParamCalcolo"></param>
+    ''' <param name="Tributo"></param>
+    ''' <returns></returns>
+    ''' <revisionHistory><revision date="07/09/2021">le tariffe specifiche sono per D/5 e D/1 anzichè D/8</revision></revisionHistory>
     Private Function PrelevaAliquoteVSTipoAbitazione(myStringConnection As String, IdEnte As String, ByVal sAnno As String, ByVal myParamCalcolo As Freezer.Generale.PARAMETRI_ICI, ByVal Tributo As String) As ListALIQUOTA_DETRAZIONE
         Dim sTipoAliquota As String = String.Empty
         Dim sTipoDetrazione As String = String.Empty
@@ -1399,7 +1408,7 @@ Public Class CALCOLO_ICI
                     '*** 20130422 - aggiornamento IMU ****
                     If myParamCalcolo.strCATEGORIA.StartsWith("D") = True Then
                         '*** 201801 - aliquote specifiche sui D ***
-                        If myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D5 Or myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D8 Then
+                        If myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D5 Or myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D1 Then
                             sTipoAliquota = myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
                             blnFindTP = True
                             sTipoDetrazione = Generale.TipoAliquote_D & myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
@@ -1469,6 +1478,145 @@ Public Class CALCOLO_ICI
             Return New ListALIQUOTA_DETRAZIONE
         End Try
     End Function
+    'Private Function PrelevaAliquoteVSTipoAbitazione(myStringConnection As String, IdEnte As String, ByVal sAnno As String, ByVal myParamCalcolo As Freezer.Generale.PARAMETRI_ICI, ByVal Tributo As String) As ListALIQUOTA_DETRAZIONE
+    '    Dim sTipoAliquota As String = String.Empty
+    '    Dim sTipoDetrazione As String = String.Empty
+    '    Dim blnFindTP As Boolean = False
+    '    Dim dsCatDaEscludere As DataSet
+    '    Dim oMyAliquote As New ListALIQUOTA_DETRAZIONE
+    '    Dim objDBOPENgovProvvedimentiSelect As New ClsDBManager
+    '    Dim IdAliquota As Integer
+    '    Dim nAliquotaStatale As Double
+    '    Dim nPercInquilino As Double = 0
+
+    '    Try
+    '        Select Case myParamCalcolo.intTIPO_ABITAZIONE
+    '            Case Generale.ABITAZIONE_PRINCIPALE_PERTINENZA.ABITAZIONE_PRINCIPALE
+    '                '*****************************************************************************************
+    '                'SE E' UNA ABITAZIONE PRINCIPALE SI ACCEDE ALLA TABELLA ALIQUOTE 
+    '                'UTILIZZANDO COME PARAMETRO (TIPO ALIQUOTA 'AAP') L'ANNO=strANNO_CALCOLO_Aliquota E UTILIZZANDO COME PARAMETRO (TIPO ALIQUOTA 'D') L'ANNO=strANNO_CALCOLO_Aliquota
+    '                'LA FUNZIONE CHIAMATA DOVRA' RESTITUIRE IL VALORE DELL'ALIQUOTA E DELLA DETRAZIONE
+    '                '*****************************************************************************************
+    '                'Log.Debug("ABITAZIONE_PRINCIPALE")
+    '                '*** 20130422 - aggiornamento IMU ***
+    '                Select Case myParamCalcolo.strCATEGORIA
+    '                    Case "A/1", "A/8", "A/9"
+    '                        sTipoAliquota = Generale.TipoAliquote_AS
+    '                    Case Else
+    '                        sTipoAliquota = Generale.TipoAliquote_AAP
+    '                End Select
+    '                sTipoDetrazione = Generale.TipoAliquote_D & sTipoAliquota
+    '                oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, sTipoAliquota, sTipoDetrazione, Tributo)
+    '                If sTipoAliquota = Generale.TipoAliquote_AS And oMyAliquote.nIdAliquota <= 0 Then
+    '                    sTipoAliquota = Generale.TipoAliquote_AAP
+    '                    sTipoDetrazione = Generale.TipoAliquote_D & sTipoAliquota
+    '                    oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, sTipoAliquota, sTipoDetrazione, Tributo)
+    '                End If
+    '                If sAnno >= 2012 Then
+    '                    '*** 20150430 - TASI Inquilino ***
+    '                    oMyAliquote.nDetrazioneFigli = objDBOPENgovProvvedimentiSelect.getAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_DFAAP, Tributo, nAliquotaStatale, IdAliquota, 0, "", nPercInquilino)
+    '                    '*** ***
+    '                End If
+    '                dsCatDaEscludere = objDBOPENgovProvvedimentiSelect.getCategorieDaEscludere(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_AAP, Tributo)
+    '                If dsCatDaEscludere.Tables(0).Select("COD_CAT='" & myParamCalcolo.strCATEGORIA & "'").Length > 0 Then
+    '                    oMyAliquote.p_ESENTE = 1
+    '                End If
+    '                '*** ***
+    '            Case Generale.ABITAZIONE_PRINCIPALE_PERTINENZA.ABITAZIONE_PERTINENZA
+    '                '*****************************************************************************************
+    '                'SE E' UNA PERTINENZA SI ACCEDE ALLA TABELLA ALIQUOTE 
+    '                'UTILIZZANDO COME PARAMETRO (TIPO ALIQUOTA 'P') L'ANNO=strANNO_CALCOLO_Aliquota
+    '                'LA FUNZIONE CHIAMATA DOVRA' RESTITUIRE IL VALORE DELL'ALIQUOTA
+    '                '*****************************************************************************************
+    '                '*** 20130422 - aggiornamento IMU ***
+    '                oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
+    '                If sAnno >= 2012 Then
+    '                    '*** 20150430 - TASI Inquilino ***
+    '                    oMyAliquote.nDetrazioneFigli = objDBOPENgovProvvedimentiSelect.getAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_DFAAP, Tributo, nAliquotaStatale, IdAliquota, 0, "", nPercInquilino)
+    '                    '*** ***
+    '                End If
+    '                '*** 201805 - se la pertinenza è riferita ad una principale esclusa devo esludere anche lei ***
+    '                dsCatDaEscludere = objDBOPENgovProvvedimentiSelect.getCategorieDaEscludere(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_AAP, Tributo)
+    '                '*** ***
+    '                If dsCatDaEscludere.Tables(0).Select("COD_CAT='" & myParamCalcolo.Categoria_AAP & "'").Length > 0 Then
+    '                    oMyAliquote.p_ESENTE = 1
+    '                End If
+    '                '*** ***
+    '                'se non è nè abitazione principale nè pertinenza
+    '            Case Else 'Utility.ABITAZIONE_PRINCIPALE_PERTINENZA.NO_ABITAZIONE_PERTINENZA
+    '                '*** 20130422 - aggiornamento IMU ****
+    '                If myParamCalcolo.strCATEGORIA.StartsWith("D") = True Then
+    '                    '*** 201801 - aliquote specifiche sui D ***
+    '                    If myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D5 Or myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D8 Then
+    '                        sTipoAliquota = myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
+    '                        blnFindTP = True
+    '                        sTipoDetrazione = Generale.TipoAliquote_D & myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
+    '                        oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, sTipoAliquota, sTipoDetrazione, Tributo)
+    '                        If oMyAliquote.nIdAliquota <= 0 Then
+    '                            sTipoAliquota = Generale.TipoAliquote_AFD                                     'altri fabbricati categoria D
+    '                            blnFindTP = True
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_AFD
+    '                        End If
+    '                    Else
+    '                        sTipoAliquota = Generale.TipoAliquote_AFD                                     'altri fabbricati categoria D
+    '                        blnFindTP = True
+    '                        sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_AFD
+    '                    End If
+    '                    '*** ***
+    '                Else
+    '                    'altrimenti testo il tipo rendita
+    '                    Select Case myParamCalcolo.strTIPO_RENDITA
+    '                        Case Generale.TipoRendita_AF                                      'AREE EDIFICABILI
+    '                            sTipoAliquota = Generale.TipoAliquote_AAF
+    '                            blnFindTP = True
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_AAF
+    '                        Case Generale.TipoRendita_TA                                        'TERRENI AGRICOLI
+    '                            sTipoAliquota = Generale.TipoAliquote_TTAA
+    '                            blnFindTP = True
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_TTAA
+    '                        Case Generale.TipoRendita_RE                                        'RENDITA EFFETTIVA
+    '                            sTipoAliquota = Generale.TipoAliquote_A
+    '                            blnFindTP = True
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_A
+    '                        Case Generale.TipoRendita_RP                                        'RENDITA PRESUNTA
+    '                            sTipoAliquota = Generale.TipoAliquote_A
+    '                            blnFindTP = True
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_A
+    '                        Case Generale.TipoRendita_RPM                                         'RENDITA PRESUNTA MODIFICATA
+    '                            sTipoAliquota = Generale.TipoAliquote_A
+    '                            blnFindTP = True
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_A
+    '                        Case Generale.TipoRendita_LC                                        'LIBRI CONTABILI
+    '                            sTipoAliquota = Generale.TipoAliquote_A
+    '                            blnFindTP = True
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_A
+    '                    End Select
+    '                End If
+    '                '*** ***
+    '                If blnFindTP = True Then
+    '                    Select Case myParamCalcolo.strCATEGORIA
+    '                        Case "C/2"
+    '                            sTipoAliquota = Generale.TipoAliquote_C2
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_C2
+    '                        Case "C/6"
+    '                            sTipoAliquota = Generale.TipoAliquote_C6
+    '                            sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_C6
+    '                    End Select
+    '                    '*** 20130422 - aggiornamento IMU ***
+    '                    oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, sTipoAliquota, sTipoDetrazione, Tributo)
+    '                    '*** ***
+    '                End If
+    '                If oMyAliquote.nIdAliquota <= 0 Then
+    '                    sTipoAliquota = Generale.TipoAliquote_A
+    '                    sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_A
+    '                    oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, sTipoAliquota, sTipoDetrazione, Tributo)
+    '                End If
+    '        End Select
+    '        Return oMyAliquote
+    '    Catch ex As Exception
+    '        Return New ListALIQUOTA_DETRAZIONE
+    '    End Try
+    'End Function
     '*** 20150430 - TASI Inquilino ***
     Private Function PrelevaAliquote(myStringConnection As String, ByVal IdEnte As String, ByVal sAnno As String, ByVal sTipoAliquota As String, ByVal sTipoDetrazione As String, ByVal Tributo As String) As ListALIQUOTA_DETRAZIONE
         Dim oMyAliquote As New ListALIQUOTA_DETRAZIONE

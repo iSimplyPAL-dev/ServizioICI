@@ -136,6 +136,7 @@ Public Class Generale
     Public Const TipoAliquote_C6 As String = "C6" 'Immobili C/6
     '*** ***
     '*** 201801 - aliquote specifiche sui D ***
+    Public Const TipoAliquote_D1 As String = "D1" 'Immobili D/1
     Public Const TipoAliquote_D5 As String = "D5" 'Immobili D/5
     Public Const TipoAliquote_D8 As String = "D8" 'Immobili D/8
     '*** ***
