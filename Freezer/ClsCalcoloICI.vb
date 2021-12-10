@@ -1423,7 +1423,26 @@ Public Class CALCOLO_ICI
                         ''BD 1/10/2021 OCCORRERA' GESTIRE ENTRAMBI I CASI
                         ''
                         If myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D8 Then
-
+                            sTipoAliquota = myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
+                            blnFindTP = True
+                            sTipoDetrazione = Generale.TipoAliquote_D & myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
+                            oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, sTipoAliquota, sTipoDetrazione, Tributo)
+                            If oMyAliquote.nIdAliquota <= 0 Then
+                                sTipoAliquota = Generale.TipoAliquote_AFD                                     'altri fabbricati categoria D
+                                blnFindTP = True
+                                sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_AFD
+                            End If
+                        ElseIf myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D5 Then
+                            sTipoAliquota = myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
+                            blnFindTP = True
+                            sTipoDetrazione = Generale.TipoAliquote_D & myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
+                            oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, sTipoAliquota, sTipoDetrazione, Tributo)
+                            If oMyAliquote.nIdAliquota <= 0 Then
+                                sTipoAliquota = Generale.TipoAliquote_AFD                                     'altri fabbricati categoria D
+                                blnFindTP = True
+                                sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_AFD
+                            End If
+                        ElseIf myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D1 Then
                             sTipoAliquota = myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
                             blnFindTP = True
                             sTipoDetrazione = Generale.TipoAliquote_D & myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
