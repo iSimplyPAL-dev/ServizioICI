@@ -1418,11 +1418,13 @@ Public Class CALCOLO_ICI
                     '*** 20130422 - aggiornamento IMU ****
                     If myParamCalcolo.strCATEGORIA.StartsWith("D") = True Then
                         '*** 201801 - aliquote specifiche sui D ***
+
                         ''BD 1/10/2021 Ripristinato il D8 per VIGLIANO NON FUNZIONERA' PIU POMARANCE CON D1 e D5
                         ''If myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D5 Or myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D1 Then
                         ''BD 1/10/2021 OCCORRERA' GESTIRE ENTRAMBI I CASI
                         ''
                         If myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper() = Generale.TipoAliquote_D8 Then
+
                             sTipoAliquota = myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
                             blnFindTP = True
                             sTipoDetrazione = Generale.TipoAliquote_D & myParamCalcolo.strCATEGORIA.Replace("/", "").ToUpper()
