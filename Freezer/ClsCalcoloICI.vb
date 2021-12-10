@@ -1389,8 +1389,17 @@ Public Class CALCOLO_ICI
                     'UTILIZZANDO COME PARAMETRO (TIPO ALIQUOTA 'P') L'ANNO=strANNO_CALCOLO_Aliquota
                     'LA FUNZIONE CHIAMATA DOVRA' RESTITUIRE IL VALORE DELL'ALIQUOTA
                     '*****************************************************************************************
+                    If (myParamCalcolo.Categoria_AAP.Equals("A/1") Or myParamCalcolo.Categoria_AAP.Equals("A/8") Or myParamCalcolo.Categoria_AAP.Equals("A/9")) Then
+                        'Abitazione di lusso allora anche la pertinenza ha aliquota TipoAliquote_AS
+                        oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_AS, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
+                    Else
+                        '*** 20130422 - aggiornamento IMU ***
+                        oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
+                    End If
+
                     '*** 20130422 - aggiornamento IMU ***
-                    oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
+                    'oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
+
                     If sAnno >= 2012 Then
                         '*** 20150430 - TASI Inquilino ***
                         oMyAliquote.nDetrazioneFigli = objDBOPENgovProvvedimentiSelect.getAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_DFAAP, Tributo, nAliquotaStatale, IdAliquota, 0, "", nPercInquilino)
