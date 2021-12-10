@@ -720,7 +720,7 @@ Public Class CALCOLO_ICI
             oMyCalcolo.Detrazione_Applicabile = 0
             oMyCalcolo.Detrazione_Residua = impDetrazioneResidua
             oMyCalcolo.Detrazione_Residua_Standard = impDetrazResiduaStandard
-            oMyCalcolo.storico = oParamCalcolo.storico
+            oMyCalcolo.Storico = oParamCalcolo.Storico
 
             If oMyCalcolo.Aliquota = -1 Then
                 Throw New Exception("GESTIONE_CALCOLO_ICI::CALCOLO_ICI.CalcolaICI::ALIQUTA ERRATA")
@@ -752,7 +752,7 @@ Public Class CALCOLO_ICI
                 nPercCalcolo = (100 - oMyCalcolo.nPercInquilino) / 100
             End If
             'calcolo l'ici ordinaria/comunale
-            If CalcolaImporti(oMyCalcolo.AnnoCalcolo, oMyCalcolo.Valore, oMyCalcolo.Aliquota, oMyCalcolo.Detrazione, oMyCalcolo.AbitazionePrincipale, oMyCalcolo.Possesso, oMyCalcolo.Utilizzatori, oMyCalcolo.Mesi, oMyCalcolo.Acconto, oMyCalcolo.Riduzione, dblRIDUZIONE, oMyCalcolo.FigliACarico, oMyCalcolo.PercentCaricoFigli, oMyCalcolo.DetrazioneFigli, impCalcoloIci, impDetrazione, impDetrazioneResidua, impDetrazResiduaStandard, bIsEsenzione, nMesiEsenzione, nPercCalcolo, oMyCalcolo.TipoAliquota, oMyCalcolo.storico) = False Then
+            If CalcolaImporti(oMyCalcolo.AnnoCalcolo, oMyCalcolo.Valore, oMyCalcolo.Aliquota, oMyCalcolo.Detrazione, oMyCalcolo.AbitazionePrincipale, oMyCalcolo.Possesso, oMyCalcolo.Utilizzatori, oMyCalcolo.Mesi, oMyCalcolo.Acconto, oMyCalcolo.Riduzione, dblRIDUZIONE, oMyCalcolo.FigliACarico, oMyCalcolo.PercentCaricoFigli, oMyCalcolo.DetrazioneFigli, impCalcoloIci, impDetrazione, impDetrazioneResidua, impDetrazResiduaStandard, bIsEsenzione, nMesiEsenzione, nPercCalcolo, oMyCalcolo.TipoAliquota, oMyCalcolo.Storico) = False Then
                 Throw New Exception("GESTIONE_CALCOLO_ICI::CALCOLO_ICI.CalcolaICI::Errore durante la fase di calcolo dell'ICI")
                 Return Nothing
             Else
@@ -773,7 +773,7 @@ Public Class CALCOLO_ICI
             oMyCalcolo.Detrazione_Residua_Standard = 0
 
             If oMyCalcolo.AliquotaStatale > 0 Then
-                If CalcolaImporti(oMyCalcolo.AnnoCalcolo, oMyCalcolo.Valore, oMyCalcolo.AliquotaStatale, oMyCalcolo.Detrazione, oMyCalcolo.AbitazionePrincipale, oMyCalcolo.Possesso, oMyCalcolo.Utilizzatori, oMyCalcolo.Mesi, oMyCalcolo.Acconto, oMyCalcolo.Riduzione, dblRIDUZIONE, oMyCalcolo.FigliACarico, oMyCalcolo.PercentCaricoFigli, oMyCalcolo.DetrazioneFigli, impCalcoloIci, impDetrazione, impDetrazioneResidua, oMyCalcolo.Detrazione_Residua_Standard, bIsEsenzione, nMesiEsenzione, nPercCalcolo, oMyCalcolo.TipoAliquota, oMyCalcolo.storico) = False Then
+                If CalcolaImporti(oMyCalcolo.AnnoCalcolo, oMyCalcolo.Valore, oMyCalcolo.AliquotaStatale, oMyCalcolo.Detrazione, oMyCalcolo.AbitazionePrincipale, oMyCalcolo.Possesso, oMyCalcolo.Utilizzatori, oMyCalcolo.Mesi, oMyCalcolo.Acconto, oMyCalcolo.Riduzione, dblRIDUZIONE, oMyCalcolo.FigliACarico, oMyCalcolo.PercentCaricoFigli, oMyCalcolo.DetrazioneFigli, impCalcoloIci, impDetrazione, impDetrazioneResidua, oMyCalcolo.Detrazione_Residua_Standard, bIsEsenzione, nMesiEsenzione, nPercCalcolo, oMyCalcolo.TipoAliquota, oMyCalcolo.Storico) = False Then
                     Throw New Exception("GESTIONE_CALCOLO_ICI::CALCOLO_ICI.CalcolaICI::Errore durante la fase di calcolo dell'ICI")
                     Return Nothing
                 Else
@@ -1150,25 +1150,25 @@ Public Class CALCOLO_ICI
             '    '*** ***
             'ElseIf strANNO_CALCOLO_Aliquota < 2012 And structPARAMETRI_ICI.strCATEGORIA = "D/10" Then
             If strANNO_CALCOLO_Aliquota < 2012 And structPARAMETRI_ICI.strCATEGORIA = "D/10" Then
-                    '*** 20120906 - IMU se sono prima del 2012 i D/10 non devono pagare
-                    sTipoAliquota = ""
-                    sTipoDetrazione = ""
+                '*** 20120906 - IMU se sono prima del 2012 i D/10 non devono pagare
+                sTipoAliquota = ""
+                sTipoDetrazione = ""
+                oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, strANNO_CALCOLO_Aliquota, sTipoAliquota, sTipoDetrazione, Tributo)
+                '*** ***
+            ElseIf IdEnte = "050027" And (structPARAMETRI_ICI.strCATEGORIA = "C/1" Or structPARAMETRI_ICI.strCATEGORIA = "C/3") Then
+                sTipoAliquota = Generale.TipoAliquote_BO
+                blnFindTP = True
+                sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_BO
+                '*** 20130422 - aggiornamento IMU ***
+                oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, strANNO_CALCOLO_Aliquota, sTipoAliquota, sTipoDetrazione, Tributo)
+                If oMyAliquote.nIdAliquota <= 0 Then
+                    sTipoAliquota = Generale.TipoAliquote_A
+                    sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_A
                     oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, strANNO_CALCOLO_Aliquota, sTipoAliquota, sTipoDetrazione, Tributo)
-                    '*** ***
-                ElseIf IdEnte = "050027" And (structPARAMETRI_ICI.strCATEGORIA = "C/1" Or structPARAMETRI_ICI.strCATEGORIA = "C/3") Then
-                    sTipoAliquota = Generale.TipoAliquote_BO
-                    blnFindTP = True
-                    sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_BO
-                    '*** 20130422 - aggiornamento IMU ***
-                    oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, strANNO_CALCOLO_Aliquota, sTipoAliquota, sTipoDetrazione, Tributo)
-                    If oMyAliquote.nIdAliquota <= 0 Then
-                        sTipoAliquota = Generale.TipoAliquote_A
-                        sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_A
-                        oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, strANNO_CALCOLO_Aliquota, sTipoAliquota, sTipoDetrazione, Tributo)
-                    End If
-                    '*** ***
-                Else
-                    oMyAliquote = PrelevaAliquoteVSTipoRendita(myStringConnection, IdEnte, strANNO_CALCOLO_Aliquota, structPARAMETRI_ICI, Tributo)
+                End If
+                '*** ***
+            Else
+                oMyAliquote = PrelevaAliquoteVSTipoRendita(myStringConnection, IdEnte, strANNO_CALCOLO_Aliquota, structPARAMETRI_ICI, Tributo)
             End If
         Catch ex As Exception
             Log.Debug("getAliquotaDetrazione:.si è verificato il seguente errore::", ex)
@@ -1389,18 +1389,8 @@ Public Class CALCOLO_ICI
                     'UTILIZZANDO COME PARAMETRO (TIPO ALIQUOTA 'P') L'ANNO=strANNO_CALCOLO_Aliquota
                     'LA FUNZIONE CHIAMATA DOVRA' RESTITUIRE IL VALORE DELL'ALIQUOTA
                     '*****************************************************************************************
-
-                    If (myParamCalcolo.Categoria_AAP.Equals("A/1") Or myParamCalcolo.Categoria_AAP.Equals("A/8") Or myParamCalcolo.Categoria_AAP.Equals("A/9")) Then
-                        'Abitazione di lusso allora anche la pertinenza ha aliquota TipoAliquote_AS
-                        oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_AS, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
-                    Else
-                        '*** 20130422 - aggiornamento IMU ***
-                        oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
-                    End If
-
                     '*** 20130422 - aggiornamento IMU ***
-                    'oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
-
+                    oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
                     If sAnno >= 2012 Then
                         '*** 20150430 - TASI Inquilino ***
                         oMyAliquote.nDetrazioneFigli = objDBOPENgovProvvedimentiSelect.getAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_DFAAP, Tributo, nAliquotaStatale, IdAliquota, 0, "", nPercInquilino)
