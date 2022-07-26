@@ -1250,7 +1250,7 @@ Public Class CALCOLO_ICI
     ''' <param name="myParamCalcolo"></param>
     ''' <param name="Tributo"></param>
     ''' <returns></returns>
-    ''' <revisionHistory><revision date="11/06/2021">Nuove Tipologie di Utilizzo</revision></revisionHistory>
+    ''' <revisionHistory><revision date="26/07/2022">Tipologie di Utilizzo per coltivatore diretto e cat.D/10 su coltivatore diretto</revision><revision date="11/06/2021">Nuove Tipologie di Utilizzo</revision></revisionHistory>
     Private Function PrelevaAliquoteVSTipoUtilizzo(myStringConnection As String, IdEnte As String, ByVal sAnno As String, ByVal myParamCalcolo As Freezer.Generale.PARAMETRI_ICI, ByVal Tributo As String) As ListALIQUOTA_DETRAZIONE
         Dim sTipoAliquota As String = String.Empty
         Dim sTipoDetrazione As String = String.Empty
@@ -1278,9 +1278,9 @@ Public Class CALCOLO_ICI
                     blnFindTP = True
                     sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_AAIRE
                 Case Generale.TitoloPossesso_LOC  'IMMOBILE LOCATO
-                    sTipoAliquota = Generale.TipoAliquote_AL
+                    sTipoAliquota = Generale.TipoAliquote_LO
                     blnFindTP = True
-                    sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_AL
+                    sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_LO
                 Case Generale.TitoloPossesso_APEX  'Detrazione Ex 104/92
                     sTipoAliquota = Generale.TipoAliquote_AAPEX
                     blnFindTP = True
@@ -1305,6 +1305,14 @@ Public Class CALCOLO_ICI
                     sTipoAliquota = Generale.TipoAliquote_IACP
                     blnFindTP = True
                     sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_IACP
+                Case Generale.TitoloPossesso_CD  'coltivatore diretto
+                    sTipoAliquota = Generale.TipoAliquote_CDD10
+                    blnFindTP = True
+                    sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_CD
+                Case Generale.TitoloPossesso_CDD10  'cat.D/10 su coltivatore diretto
+                    sTipoAliquota = Generale.TipoAliquote_CDD10
+                    blnFindTP = True
+                    sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_CDD10
             End Select
             If blnFindTP = True Then
                 '*** 20130422 - aggiornamento IMU ***

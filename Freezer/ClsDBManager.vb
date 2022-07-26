@@ -110,11 +110,10 @@ Public Class Generale
     Public Const TipoAliquote_S As String = "S"       'SFITTI/A DISPOSIZIONE
     Public Const TipoAliquote_TTAA As String = "TA"       'TERRENI AGRICOLI
     Public Const TipoAliquote_STO As String = "STO"       'Storico
-    Public Const TipoAliquote_RUR As String = "RUR"       'Rurale
+    Public Const TipoAliquote_RUR As String = "RUR"       'Rurale/Fabbricati Strumentali Agricoli
     Public Const TipoAliquote_IACP As String = "IACP"       'IMU per l'Agenzia Territoriale per la Casa (ex IACP)
     'DIPE 25/03/2009
     Public Const TipoAliquote_AAIRE As String = "AAIRE"       'AIRE
-    Public Const TipoAliquote_AL As String = "AL"     'Immobile Locato 
     'DIPE 15/09/2009 Per Pomarance
     Public Const TipoAliquote_BO As String = "BO"     'Immobili C/1 e C/3
     Public Const TipoAliquote_DSAAP As String = "DSAAP"       'DETRAZIONE STATALE ABITAZIONE PRINCIPALE
@@ -140,21 +139,28 @@ Public Class Generale
     Public Const TipoAliquote_D5 As String = "D5" 'Immobili D/5
     Public Const TipoAliquote_D8 As String = "D8" 'Immobili D/8
     '*** ***
+    Public Const TipoAliquote_LO As String = "LO"     'Immobili Locati
 #End Region
 #Region "Titolo Possesso"
     'TITOLO DI POSSESSO -- stesse voci presenti nella tabella TAB_TIPO_POSSESSO di OPENgovTerritorio 
     'ci sono solo i titoli di possesso che influiscono sul calcolo ICI
-    Public Const TitoloPossesso_UG1 As Integer = 3 ' String ="2"    'uso gratuito primo grado
-    Public Const TitoloPossesso_UG2 As Integer = 4 ' String ="3"    'uso gratuito secondo grado
-    Public Const TitoloPossesso_UG3 As Integer = 5 ' String ="4"    'uso gratuito terzo grado
-    Public Const TitoloPossesso_SAD As Integer = 6 ' String ="8"    'a disposizione
-    Public Const TitoloPossesso_AFC As Integer = 7 ' String ="9"    'affitti convenzionati
-    Public Const TitoloPossesso_APEX As Integer = 9 ' String ="11"      'Detrazione Ex 104/92
-    Public Const TitoloPossesso_AIRE As Integer = -1 ' String ="12"      'AIRE
-    Public Const TitoloPossesso_LOC As Integer = 8 ' String ="13"       'Immobile Locato
+    Public Const TitoloPossesso_MANCANTE As Integer = 1  '[MANCANTE]
+    Public Const TitoloPossesso_AP As Integer = 2  'Abitazione principale
+    Public Const TitoloPossesso_UG1 As Integer = 3  'uso gratuito primo grado
+    Public Const TitoloPossesso_UG2 As Integer = 4  'uso gratuito secondo grado
+    Public Const TitoloPossesso_UG3 As Integer = 5  'uso gratuito terzo grado
+    Public Const TitoloPossesso_SAD As Integer = 6  'a disposizione
+    Public Const TitoloPossesso_AFC As Integer = 7  'affitti convenzionati
+    Public Const TitoloPossesso_LOC As Integer = 8  'Immobile Locato
+    Public Const TitoloPossesso_APEX As Integer = 9  'Beni Merci 'Abitazione principale ex 104/92
+    Public Const TitoloPossesso_MICRO As Integer = 10  'Contribuente in micro comunità
+    Public Const TitoloPossesso_VUOTO As Integer = 11  'Non occupato e vuoto
     Public Const TitoloPossesso_STO As Integer = 12  'Storico	
     Public Const TitoloPossesso_RUR As Integer = 13  'Rurale	
     Public Const TitoloPossesso_IACP As Integer = 14  'IMU per l'Agenzia Territoriale per la Casa (ex IACP)	
+    Public Const TitoloPossesso_AIRE As Integer = 15  'A.I.R.E. (Abitazione Residente all'Estero)
+    Public Const TitoloPossesso_CD As Integer = 16  'Coltivatore Diretto
+    Public Const TitoloPossesso_CDD10 As Integer = 17  'Cat.D/10 su Coltivatore Diretto
 #End Region
 
     Enum ABITAZIONE_PRINCIPALE_PERTINENZA
