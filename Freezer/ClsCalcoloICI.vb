@@ -1313,6 +1313,10 @@ Public Class CALCOLO_ICI
                     sTipoAliquota = Generale.TipoAliquote_CDD10
                     blnFindTP = True
                     sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_CDD10
+                Case Generale.TitoloPossesso_PS  'Pertinenza di Abitazione Signorile
+                    sTipoAliquota = Generale.TipoAliquote_AS
+                    blnFindTP = True
+                    sTipoDetrazione = Generale.TipoAliquote_D & Generale.TipoAliquote_AS
             End Select
             If blnFindTP = True Then
                 '*** 20130422 - aggiornamento IMU ***
@@ -1346,7 +1350,7 @@ Public Class CALCOLO_ICI
     ''' <param name="myParamCalcolo"></param>
     ''' <param name="Tributo"></param>
     ''' <returns></returns>
-    ''' <revisionHistory><revision date="07/09/2021">le tariffe specifiche sono per D/5 e D/1 anzichè D/8</revision></revisionHistory>
+    ''' <revisionHistory><revision date="22/09/2022">le tariffe pertinenza abitazione signorile è stata gestita tramite tipo utilizzo ad hoc</revision><revision date="07/09/2021">le tariffe specifiche sono per D/5 e D/1 anzichè D/8</revision></revisionHistory>
     Private Function PrelevaAliquoteVSTipoAbitazione(myStringConnection As String, IdEnte As String, ByVal sAnno As String, ByVal myParamCalcolo As Freezer.Generale.PARAMETRI_ICI, ByVal Tributo As String) As ListALIQUOTA_DETRAZIONE
         Dim sTipoAliquota As String = String.Empty
         Dim sTipoDetrazione As String = String.Empty
@@ -1397,13 +1401,13 @@ Public Class CALCOLO_ICI
                     'UTILIZZANDO COME PARAMETRO (TIPO ALIQUOTA 'P') L'ANNO=strANNO_CALCOLO_Aliquota
                     'LA FUNZIONE CHIAMATA DOVRA' RESTITUIRE IL VALORE DELL'ALIQUOTA
                     '*****************************************************************************************
-                    If (myParamCalcolo.Categoria_AAP.Equals("A/1") Or myParamCalcolo.Categoria_AAP.Equals("A/8") Or myParamCalcolo.Categoria_AAP.Equals("A/9")) Then
-                        'Abitazione di lusso allora anche la pertinenza ha aliquota TipoAliquote_AS
-                        oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_AS, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
-                    Else
-                        '*** 20130422 - aggiornamento IMU ***
-                        oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
-                    End If
+                    'If (myParamCalcolo.Categoria_AAP.Equals("A/1") Or myParamCalcolo.Categoria_AAP.Equals("A/8") Or myParamCalcolo.Categoria_AAP.Equals("A/9")) Then
+                    '    'Abitazione di lusso allora anche la pertinenza ha aliquota TipoAliquote_AS
+                    '    oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_AS, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
+                    'Else
+                    '    '*** 20130422 - aggiornamento IMU ***
+                    oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)
+                    'End If
 
                     '*** 20130422 - aggiornamento IMU ***
                     'oMyAliquote = PrelevaAliquote(myStringConnection, IdEnte, sAnno, Generale.TipoAliquote_P, Generale.TipoAliquote_D & Generale.TipoAliquote_P, Tributo)

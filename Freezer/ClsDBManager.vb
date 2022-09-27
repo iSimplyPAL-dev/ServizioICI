@@ -161,6 +161,7 @@ Public Class Generale
     Public Const TitoloPossesso_AIRE As Integer = 15  'A.I.R.E. (Abitazione Residente all'Estero)
     Public Const TitoloPossesso_CD As Integer = 16  'Coltivatore Diretto
     Public Const TitoloPossesso_CDD10 As Integer = 17  'Cat.D/10 su Coltivatore Diretto
+    Public Const TitoloPossesso_PS As Integer = 18 'Pertinenza di Abitazione Signorile
 #End Region
 
     Enum ABITAZIONE_PRINCIPALE_PERTINENZA
@@ -184,6 +185,7 @@ Public Class Generale
         Dim IsColtivatoreDiretto As Boolean
         '*** 201805 - se la pertinenza è riferita ad una principale esclusa devo esludere anche lei ***
         Dim Categoria_AAP As String
+        Dim Categoria_AS As String
     End Structure
     Structure VALORI_ICI_CALCOLATA
         Dim dblICI_ACCONTO_SENZA_DETRAZIONE As Double
